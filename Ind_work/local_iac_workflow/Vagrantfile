@@ -1,0 +1,23 @@
+
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# We want to create a VM with vagrant scripting ruby language
+# We want that VM to have a memmory 512
+# We want to be connected to my local network
+# We want that VM to be a centos 7 machine
+#
+
+Vagrant.configure("2") do |config|
+
+    config.vm.define "Mich" do |testvm|
+      testvm.vm.box = "centos/7"
+      testvm.vm.network "public_network", bridges: "intel gigabit"
+
+      testvm.vm.provision :shell, :inline => "yum update -y; yum install net-tool -y"
+      testvm.vm.provider :virtualbox do |vbv|
+          vbv.memory = 512
+          vbv.name = "Mich-box"
+        end
+    end
+end
